@@ -12,3 +12,6 @@ helm history fastapi -n demo
 helm uninstall fastapi -n demo
 kubectl get all -n demo
 # пусто — Helm удалил всё, что создал
+
+# Какие чарты сейчас задеплоены в кластер
+helm list -A

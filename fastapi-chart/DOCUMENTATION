@@ -1,0 +1,10 @@
+# upgrade ad-hoc без изменения манифестов
+helm upgrade fastapi ./fastapi-chart -n demo `
+  --set config.GREETING="Hallo aus Helm"
+
+  # Откатываемся к первой ревизии (там GREETING: Привет из values.yaml)
+helm rollback fastapi 1 -n demo
+kubectl rollout restart deployment/fastapi-fastapi-chart -n demo
+
+# Смотрим историю — видим, что все ревизии на месте
+helm history fastapi -n demo

@@ -2,6 +2,11 @@
 helm upgrade fastapi ./fastapi-chart -n demo `
   --set config.GREETING="Hallo aus Helm"
 
+helm upgrade fastapi-dev ./fastapi-chart `
+  -n dev `
+  -f envs/dev.yaml `
+  --set config.GREETING="DEV v2"
+
   # Откатываемся к первой ревизии (там GREETING: Привет из values.yaml)
 helm rollback fastapi 1 -n demo
 kubectl rollout restart deployment/fastapi-fastapi-chart -n demo

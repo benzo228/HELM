@@ -1,0 +1,65 @@
+# ЗНАЧЕНИЯ - ЗАМЕНЯЕМЫЕ И ПЕРЕНАЗНАЧАЕМЫЕ ДАННЫЕ, КОТОРЫЕ ПОДСТАВЛЯЮТСЯ КАК ENV В TEMPLATES, ГДЕ ЛЕЖАТ МАНИФЕСТЫ
+# Количество реплик. Игнорируется, если autoscaling.enabled = true.
+replicaCount: 2
+
+image:
+  repository: fastapi-app
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+# ServiceAccount. Нам не нужен (приложение не вызывает k8s API),
+# поэтому create: false — ресурс не будет создан.
+serviceAccount:
+  create: false
+  automount: false
+  name: ""
+
+# Настройки приложения -> ConfigMap
+config:
+  APP_ENV: "dev"
+  GREETING: "Привет"
+
+# Секреты -> Secret
+secrets:
+  DB_PASSWORD: "supersecret123"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: fastapi.local
+  path: /
+  pathType: Prefix
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+resources:
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+  limits:
+    cpu: "200m"
+    memory: "128Mi"
+
+probes:
+  readiness:
+    path: /health
+    initialDelaySeconds: 3
+    periodSeconds: 5
+  liveness:
+    path: /health
+    initialDelaySeconds: 10
+    periodSeconds: 10
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+
+nameOverride: ""
+fullnameOverride: ""

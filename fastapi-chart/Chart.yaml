@@ -1,0 +1,7 @@
+#МЕТАДАННЫЕ ЧАРТА
+apiVersion: v2
+name: fastapi-chart
+description: FastAPI demo app for learning Helm
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

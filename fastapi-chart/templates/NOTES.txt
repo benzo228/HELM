@@ -1,0 +1,20 @@
+Спасибо за установку {{ .Chart.Name }}!
+
+Релиз {{ .Release.Name }} развёрнут в namespace {{ .Release.Namespace }}.
+
+Проверить поды:
+  kubectl get pods -n {{ .Release.Namespace }} -l app.kubernetes.io/instance={{ .Release.Name }}
+
+Доступ к приложению:
+{{- if .Values.ingress.enabled }}
+
+  Ingress включён: http://{{ .Values.ingress.host }}/
+  (нужен `minikube tunnel` + запись в hosts 127.0.0.1 {{ .Values.ingress.host }})
+{{- else }}
+
+  kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "fastapi-chart.fullname" . }} 8080:{{ .Values.service.port }}
+  Открой: http://localhost:8080/
+{{- end }}
+
+Удалить релиз:
+  helm uninstall {{ .Release.Name }} -n {{ .Release.Namespace }}

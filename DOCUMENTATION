@@ -8,3 +8,7 @@ kubectl rollout restart deployment/fastapi-fastapi-chart -n demo
 
 # Смотрим историю — видим, что все ревизии на месте
 helm history fastapi -n demo
+
+helm uninstall fastapi -n demo
+kubectl get all -n demo
+# пусто — Helm удалил всё, что создал

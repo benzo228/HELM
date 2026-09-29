@@ -1,0 +1,18 @@
+config:
+  APP_ENV: "dev"
+  GREETING: "HELLO DEV"
+
+ingress:
+  host: dev.fastapi.local
+
+autoscaling:
+  minReplicas: 2
+  maxReplicas: 4
+
+resources:
+  requests:
+    cpu: "30m"
+    memory: "48Mi"
+  limits:
+    cpu: "150m"
+    memory: "96Mi"

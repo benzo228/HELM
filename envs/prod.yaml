@@ -1,0 +1,24 @@
+config:
+  APP_ENV: "prod"
+  GREETING: "HELLO PROD"
+
+ingress:
+  host: prod.fastapi.local
+
+replicaCount: 3
+
+autoscaling:
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 60
+
+resources:
+  requests:
+    cpu: "80m"
+    memory: "96Mi"
+  limits:
+    cpu: "300m"
+    memory: "256Mi"
+
+secrets:
+  DB_PASSWORD: "prod-super-secret-password"
